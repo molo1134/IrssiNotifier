@@ -466,6 +466,24 @@ if (defined($ENV{STY})) {
     }
 }
 
+sub cmd_testnotif {
+    # data - contains the parameters for /HELLO
+    # server - the active server in window
+    # witem - the active window item (eg. channel, query)
+    #         or undef if the window is empty
+    my ($data, $server, $witem) = @_;
+
+    if ($data) {
+	$lastMsg = $data;
+	$lastNick = "test" if not defined $lastNick;
+	$lastTarget = "test";
+	send_notification();
+	Irssi::print("notification sent: $data");
+    }
+}
+
+Irssi::command_bind('testnotif', 'cmd_testnotif');
+
 Irssi::settings_add_str('irssinotifier', 'irssinotifier_encryption_password', 'password');
 Irssi::settings_add_str('irssinotifier', 'irssinotifier_api_token', '');
 Irssi::settings_add_str('irssinotifier', 'irssinotifier_https_proxy', '');
